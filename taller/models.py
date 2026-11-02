@@ -1,55 +1,32 @@
 from django.db import models
-
-# Create your models here.
-from datetime import date
-from django.db import models
+from django.utils import timezone
  
  
-class Mecanico(models.Model):
+class Cancha(models.Model):
+    nombre = models.CharField(max_length=60)
+    deporte = models.CharField(max_length=40)
+    hora_apertura = models.IntegerField(default=8, verbose_name="Abre a las (hora)")
+    hora_cierre = models.IntegerField(default=22, verbose_name="Cierra a las (hora)")
+ 
+    def horas(self):
+        return range(self.hora_apertura, self.hora_cierre)
+ 
+    def __str__(self):
+        return f"{self.nombre} ({self.deporte})"
+ 
+ 
+class Reserva(models.Model):
+    cancha = models.ForeignKey(
+        Cancha, on_delete=models.CASCADE, related_name="reservas")
+    hora = models.IntegerField()
     nombre = models.CharField(max_length=80)
-    especialidad = models.CharField(max_length=80)
+    creada = models.DateTimeField(default=timezone.now)
  
     class Meta:
-        verbose_name = "Mecánico"
-        verbose_name_plural = "Mecánicos"
+        constraints = [
+            models.UniqueConstraint(
+                fields=["cancha", "hora"], name="una_reserva_por_horario"),
+        ]
  
     def __str__(self):
-        return f"{self.nombre} ({self.especialidad})"
- 
- 
-class Vehiculo(models.Model):
-    placa = models.CharField(max_length=10)
-    marca = models.CharField(max_length=50)
-    modelo = models.CharField(max_length=50)
-    anio = models.IntegerField(verbose_name="Año")
-    propietario = models.CharField(max_length=100)
-    telefono = models.CharField(max_length=20)
- 
-    class Meta:
-        verbose_name = "Vehículo"
-        verbose_name_plural = "Vehículos"
- 
-    def __str__(self):
-        return f"{self.placa} — {self.marca} {self.modelo}"
- 
- 
-class Orden(models.Model):
-    ESTADOS = [
-        ("Recibido", "Recibido"),
-        ("En reparación", "En reparación"),
-        ("Listo", "Listo"),
-        ("Entregado", "Entregado"),
-    ]
-    vehiculo = models.ForeignKey(
-        Vehiculo, on_delete=models.CASCADE, related_name="ordenes")
-    mecanico = models.ForeignKey(
-        Mecanico, on_delete=models.PROTECT, related_name="ordenes")
-    descripcion = models.CharField(max_length=200)
-    estado = models.CharField(max_length=20, choices=ESTADOS, default="Recibido")
-    fecha_ingreso = models.DateField(default=date.today)
- 
-    class Meta:
-        verbose_name_plural = "Órdenes"
- 
-    def __str__(self):
-        return f"{self.vehiculo.placa}: {self.descripcion}"
+        return f"{self.cancha.nombre} {self.hora}:00 — {self.nombre}"

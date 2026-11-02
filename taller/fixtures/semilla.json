@@ -1,2 +1,22 @@
 [
+{
+  "model": "taller.cancha",
+  "pk": 1,
+  "fields": {
+    "nombre": "central",
+    "deporte": "futbol 5",
+    "hora_apertura": 8,
+    "hora_cierre": 22
+  }
+},
+{
+  "model": "taller.cancha",
+  "pk": 2,
+  "fields": {
+    "nombre": "sur",
+    "deporte": "basquet",
+    "hora_apertura": 8,
+    "hora_cierre": 20
+  }
+}
 ]

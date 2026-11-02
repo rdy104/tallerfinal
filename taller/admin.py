@@ -1,12 +1,13 @@
 from django.contrib import admin
-from .models import Mecanico, Vehiculo, Orden
+from .models import Cancha, Reserva
  
  
-@admin.register(Orden)
-class OrdenAdmin(admin.ModelAdmin):
-    list_display = ("vehiculo", "descripcion", "mecanico", "estado", "fecha_ingreso")
-    list_filter = ("estado", "mecanico")
+@admin.register(Cancha)
+class CanchaAdmin(admin.ModelAdmin):
+    list_display = ("nombre", "deporte", "hora_apertura", "hora_cierre")
  
  
-admin.site.register(Mecanico)
-admin.site.register(Vehiculo)
+@admin.register(Reserva)
+class ReservaAdmin(admin.ModelAdmin):
+    list_display = ("cancha", "hora", "nombre", "creada")
+    list_filter = ("cancha",)
