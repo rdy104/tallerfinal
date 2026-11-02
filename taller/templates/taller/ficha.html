@@ -1,0 +1,28 @@
+{% extends "taller/base.html" %}
+ 
+{% block titulo %}{{ vehiculo.placa }}{% endblock %}
+ 
+{% block contenido %}
+<div class="tarjeta">
+    <h1>{{ vehiculo.placa }} — {{ vehiculo.marca }} {{ vehiculo.modelo }}</h1>
+    <p><strong>Año:</strong> {{ vehiculo.anio }}</p>
+    <p><strong>Propietario:</strong> {{ vehiculo.propietario }}
+       ({{ vehiculo.telefono }})</p>
+</div>
+ 
+<h2>Historial de órdenes</h2>
+<table>
+    <tr><th>Ingreso</th><th>Trabajo</th><th>Mecánico</th><th>Estado</th></tr>
+    {% for o in historial %}
+    <tr>
+        <td>{{ o.fecha_ingreso|date:"d/m/Y" }}</td>
+        <td>{{ o.descripcion }}</td>
+        <td>{{ o.mecanico.nombre }}</td>
+        <td><span class="estado e-{{ o.estado|slugify }}">{{ o.estado }}</span></td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="4">Este vehículo no tiene órdenes.</td></tr>
+    {% endfor %}
+</table>
+<p><a href="{% url 'ordenes' %}">← Volver a las órdenes</a></p>
+{% endblock %}

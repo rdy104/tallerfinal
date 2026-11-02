@@ -1,0 +1,28 @@
+{% extends "taller/base.html" %}
+ 
+{% block contenido %}
+<h1>Órdenes en curso</h1>
+<p class="filtros">
+    <a href="{% url 'ordenes' %}">Todos</a>
+    {% for m in mecanicos %}
+    <a href="?mecanico={{ m.id }}">{{ m.nombre }}</a>
+    {% endfor %}
+</p>
+ 
+<table>
+    <tr>
+        <th>Placa</th><th>Trabajo</th><th>Mecánico</th><th>Estado</th><th>Ingreso</th>
+    </tr>
+    {% for o in ordenes %}
+    <tr>
+        <td><a href="{% url 'ficha' o.vehiculo.pk %}">{{ o.vehiculo.placa }}</a></td>
+        <td>{{ o.descripcion }}</td>
+        <td>{{ o.mecanico.nombre }}</td>
+        <td><span class="estado e-{{ o.estado|slugify }}">{{ o.estado }}</span></td>
+        <td>{{ o.fecha_ingreso|date:"d/m/Y" }}</td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="5">No hay órdenes en curso.</td></tr>
+    {% endfor %}
+</table>
+{% endblock %}
