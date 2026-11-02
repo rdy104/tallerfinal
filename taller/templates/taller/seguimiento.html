@@ -1,0 +1,47 @@
+{% extends "taller/base.html" %}
+ 
+{% block cabecera %}{% if encomienda %}<meta http-equiv="refresh" content="5">{% endif %}{% endblock %}
+ 
+{% block titulo %}Seguimiento {{ codigo }}{% endblock %}
+ 
+{% block contenido %}
+<h1>Seguimiento <span class="codigo">{{ codigo }}</span></h1>
+ 
+{% if encomienda %}
+<div class="tarjeta">
+    <p><strong>Descripción:</strong> {{ encomienda.descripcion }}</p>
+    <p><strong>Remitente:</strong> {{ encomienda.remitente }}</p>
+    <p><strong>Destinatario:</strong> {{ encomienda.destinatario }}</p>
+    <p><strong>Registrada:</strong> {{ encomienda.fecha_registro|date:"d/m/Y" }}</p>
+</div>
+ 
+<div class="tarjeta">
+    <h2>Dónde está ahora</h2>
+    {% with ultimo=encomienda.ultimo_evento %}
+    {% if ultimo %}
+    <p class="posicion">{{ ultimo.punto.nombre }}</p>
+    <p>desde las {{ ultimo.hora|date:"H:i:s" }}</p>
+    {% else %}
+    <p>Todavía no se registró ningún paso.</p>
+    {% endif %}
+    {% endwith %}
+ 
+    <h3>Historial</h3>
+    <ul class="linea">
+        {% for e in encomienda.historial %}
+        <li>{{ e.hora|date:"H:i:s" }} — {{ e.punto.nombre }}</li>
+        {% empty %}
+        <li>Sin movimientos.</li>
+        {% endfor %}
+    </ul>
+    <p><small>Esta página se actualiza sola cada 5 segundos.</small></p>
+</div>
+{% else %}
+<div class="tarjeta">
+    <p class="aviso">No encontramos ninguna encomienda con el código {{ codigo }}.
+       Revisa que esté bien escrito.</p>
+</div>
+{% endif %}
+ 
+<p><a href="{% url 'seguimiento_buscar' %}">← Consultar otro código</a></p>
+{% endblock %}

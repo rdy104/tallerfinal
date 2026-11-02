@@ -1,0 +1,25 @@
+{% extends "taller/base.html" %}
+ 
+{% block cabecera %}<meta http-equiv="refresh" content="5">{% endblock %}
+ 
+{% block contenido %}
+<h1>Tablero de encomiendas</h1>
+<table>
+    <tr><th>Código</th><th>Descripción</th><th>Destinatario</th><th>Última posición</th><th>Hora</th><th>QR</th></tr>
+    {% for e in encomiendas %}
+    {% with ultimo=e.ultimo_evento %}
+    <tr>
+        <td class="codigo"><a href="{% url 'seguimiento' e.codigo %}">{{ e.codigo }}</a></td>
+        <td>{{ e.descripcion }}</td>
+        <td>{{ e.destinatario }}</td>
+        <td>{% if ultimo %}{{ ultimo.punto.nombre }}{% else %}—{% endif %}</td>
+        <td>{% if ultimo %}{{ ultimo.hora|date:"H:i:s" }}{% endif %}</td>
+        <td><a href="{% url 'etiqueta' e.codigo %}">Etiqueta</a></td>
+    </tr>
+    {% endwith %}
+    {% empty %}
+    <tr><td colspan="6">Todavía no hay encomiendas. Regístralas desde el panel de administración.</td></tr>
+    {% endfor %}
+</table>
+<p><small>Se actualiza solo cada 5 segundos.</small></p>
+{% endblock %}

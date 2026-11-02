@@ -1,0 +1,10 @@
+{% extends "taller/base.html" %}
+ 
+{% block contenido %}
+<h1>Seguimiento de encomienda</h1>
+<form method="get" class="tarjeta">
+    <label for="codigo"><strong>Escribe el código de tu encomienda</strong></label>
+    <input type="text" name="codigo" id="codigo" maxlength="8" autofocus>
+    <p><button type="submit" class="boton">Consultar</button></p>
+</form>
+{% endblock %}

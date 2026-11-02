@@ -1,0 +1,12 @@
+{% extends "taller/base.html" %}
+ 
+{% block titulo %}Etiqueta {{ encomienda.codigo }}{% endblock %}
+ 
+{% block contenido %}
+<div class="tarjeta" style="text-align:center">
+    <h1 class="codigo">{{ encomienda.codigo }}</h1>
+    <img src="{% url 'qr' encomienda.codigo %}" alt="Código QR de la encomienda {{ encomienda.codigo }}" width="260">
+    <p>{{ encomienda.descripcion }} — para {{ encomienda.destinatario }}</p>
+    <p><small>Escanéalo con la cámara del celular para registrar el paso por un punto.</small></p>
+</div>
+{% endblock %}

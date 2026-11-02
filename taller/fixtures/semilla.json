@@ -1,2 +1,41 @@
 [
+{
+  "model": "taller.encomienda",
+  "pk": 1,
+  "fields": {
+    "codigo": "ZF64MX",
+    "descripcion": "encomienda1",
+    "remitente": "clienteA",
+    "destinatario": "clienteB",
+    "fecha_registro": "2026-11-02"
+  }
+},
+{
+  "model": "taller.punto",
+  "pk": 1,
+  "fields": {
+    "nombre": "punto1"
+  }
+},
+{
+  "model": "taller.punto",
+  "pk": 2,
+  "fields": {
+    "nombre": "punto2"
+  }
+},
+{
+  "model": "taller.punto",
+  "pk": 3,
+  "fields": {
+    "nombre": "punto3"
+  }
+},
+{
+  "model": "taller.punto",
+  "pk": 4,
+  "fields": {
+    "nombre": "punto4"
+  }
+}
 ]
